@@ -14,6 +14,10 @@ public class Appointment {
 
     private String appointmentTime;
 
+    private String consultationMode;
+
+    private String reason;
+
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status = AppointmentStatus.PENDING;
 
@@ -47,6 +51,22 @@ public class Appointment {
 
     public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
+    }
+
+    public String getConsultationMode() {
+        return consultationMode;
+    }
+
+    public void setConsultationMode(String consultationMode) {
+        this.consultationMode = consultationMode;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public Patient getPatient() {

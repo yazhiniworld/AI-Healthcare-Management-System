@@ -120,3 +120,52 @@
   padding:12px;
   border-radius:12px;
 }
+.doctor-search-container {
+  margin: 25px 0;
+}
+
+.doctor-search {
+  width: 100%;
+  max-width: 450px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+  background: white;
+}
+
+.doctor-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit-btn {
+  flex: 1;
+  background: #3b82f6;   /* Soft professional blue */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+.delete-btn {
+  flex: 1;
+  background: #f87171;   /* Soft red */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: #ef4444;
+}

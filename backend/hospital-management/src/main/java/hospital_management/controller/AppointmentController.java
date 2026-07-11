@@ -1,19 +1,25 @@
 package hospital_management.controller;
 
+import hospital_management.dto.AppointmentReportRequest;
 import hospital_management.entity.Appointment;
+import hospital_management.entity.PatientReport;
 import hospital_management.service.AppointmentService;
+import hospital_management.service.PatientReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private PatientReportService patientReportService;
 
     // Get All Appointments
     @GetMapping
@@ -86,5 +92,38 @@ public class AppointmentController {
 
         return appointmentService
                 .getAppointmentsByDoctor(doctorId);
+    }
+
+    @GetMapping("/doctor-user/{userId}")
+    public List<Appointment> getAppointmentsByDoctorUser(
+        @PathVariable Long userId) {
+
+        return appointmentService
+                .getAppointmentsByDoctorUser(userId);
+    }
+
+    @GetMapping("/patient-user/{userId}")
+    public List<Appointment> getAppointmentsByPatientUser(
+        @PathVariable Long userId) {
+
+        return appointmentService
+                .getAppointmentsByPatientUser(userId);
+    }
+
+    @PostMapping("/{id}/report")
+    public PatientReport uploadReport(
+            @PathVariable Long id,
+            @RequestBody AppointmentReportRequest req) {
+
+        Appointment appointment = appointmentService.getAppointmentById(id);
+
+        PatientReport report = new PatientReport();
+        report.setReportDate(req.getReportDate());
+        report.setReportType(req.getReportType());
+        report.setSummary(req.getSummary());
+        report.setDetailsUrl(req.getDetailsUrl());
+        report.setPatient(appointment.getPatient());
+
+        return patientReportService.saveReport(report);
     }
 }

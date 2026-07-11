@@ -1,0 +1,224 @@
+.dashboard-page {
+  color: #0f172a;
+}
+
+.dashboard-hero {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  margin-bottom: 28px;
+}
+
+.hero-copy .eyebrow {
+  color: #0369a1;
+  font-weight: 800;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2rem, 2.5vw, 2.8rem);
+  margin: 10px 0 16px;
+}
+
+.hero-text {
+  color: #475569;
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+.hero-metrics {
+  display: grid;
+  gap: 14px;
+}
+
+.hero-metric-card {
+  background: rgba(255, 255, 255, 0.96);
+  padding: 20px;
+  border-radius: 18px;
+  border-top: 4px solid #36b4ff;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.hero-metric-card.soft {
+  border-top-color: #c7d2fe;
+}
+
+.hero-metric-card p {
+  margin: 0 0 10px;
+  color: #475569;
+}
+
+.hero-metric-card h2 {
+  font-size: 2.35rem;
+  margin: 0;
+}
+
+.metric-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.metric-chip.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.metric-chip.neutral {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.85fr;
+  gap: 24px;
+}
+
+.overview-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.info-card {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  border-top: 4px solid #0ea5e9;
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.info-icon {
+  color: #0369a1;
+  font-size: 1.25rem;
+}
+
+.info-card h2 {
+  margin: 0 0 10px;
+  font-size: 2.25rem;
+}
+
+.info-card p {
+  margin: 0;
+  color: #64748b;
+}
+
+.insights-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.ghost-btn {
+  border: none;
+  background: rgba(3, 105, 161, 0.08);
+  color: #0369a1;
+  padding: 12px 18px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.action-chip {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(3, 105, 161, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(3, 105, 161, 0.1);
+}
+
+.section-card {
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.section-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.activity-list {
+  display: grid;
+  gap: 14px;
+}
+
+.activity-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.82);
+}
+
+.activity-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.activity-detail {
+  color: #475569;
+  margin: 0;
+}
+
+@media (max-width: 1000px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .overview-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+}

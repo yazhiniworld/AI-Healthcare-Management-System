@@ -20,21 +20,36 @@ public class PatientService {
     public Patient savePatient(Patient patient) {
         return patientRepository.save(patient);
     }
+
     public void deletePatient(Long id) {
-    patientRepository.deleteById(id);
-}
+        patientRepository.deleteById(id);
+    }
 
     public Patient updatePatient(Long id, Patient patientDetails) {
 
-    Patient patient = patientRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Patient not found"));
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
 
-    patient.setPatientName(patientDetails.getPatientName());
-    patient.setAge(patientDetails.getAge());
-    patient.setGender(patientDetails.getGender());
-    patient.setPhone(patientDetails.getPhone());
+        patient.setPatientName(patientDetails.getPatientName());
+        patient.setAge(patientDetails.getAge());
+        patient.setGender(patientDetails.getGender());
+        patient.setPhone(patientDetails.getPhone());
+        patient.setBloodGroup(patientDetails.getBloodGroup());
+        patient.setAddress(patientDetails.getAddress());
+        patient.setDisease(patientDetails.getDisease());
+        patient.setStatus(patientDetails.getStatus());
+        patient.setEmergencyContactName(patientDetails.getEmergencyContactName());
+        patient.setEmergencyContactPhone(patientDetails.getEmergencyContactPhone());
 
-    return patientRepository.save(patient);
-}
+        return patientRepository.save(patient);
+    }
+
+    public Patient getPatientByUserId(Long userId) {
+        Patient patient = patientRepository.findByUserUserId(userId);
+        if (patient == null) {
+            throw new RuntimeException("Patient not found");
+        }
+        return patient;
+    }
 }
 

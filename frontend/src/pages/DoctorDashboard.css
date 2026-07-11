@@ -1,0 +1,120 @@
+.doctor-dashboard{
+  padding:30px;
+}
+
+.doctor-header{
+  margin-bottom:30px;
+}
+
+.doctor-header h1{
+  margin:0;
+  font-size:2.3rem;
+}
+
+.doctor-header p{
+  margin:10px 0 0;
+  color:#475569;
+}
+
+.doctor-cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card h2{
+  font-size:40px;
+  margin:0 0 8px;
+  color:#1d4ed8;
+}
+
+.card p{
+  margin:0;
+  color:#475569;
+}
+
+.doctor-appointments{
+  background:white;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 12px 30px rgba(15,23,42,.08);
+}
+
+.doctor-appointments .section-header{
+  margin-bottom:20px;
+}
+
+.appointment-list {
+  display:grid;
+  gap:16px;
+}
+
+.appointment-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:20px 22px;
+  border-radius:16px;
+  border:1px solid #e2e8f0;
+}
+
+.appointment-details h3{
+  margin:0 0 6px;
+}
+
+.appointment-details p{
+  margin:4px 0;
+  color:#475569;
+}
+
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:700;
+}
+
+.status-pill.pending{
+  background:#f8fafc;
+  color:#0ea5e9;
+}
+
+.status-pill.confirmed{
+  background:#d1fae5;
+  color:#065f46;
+}
+
+.status-pill.completed{
+  background:#e0f2fe;
+  color:#0369a1;
+}
+
+.status-pill.cancelled{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+@media (max-width: 720px) {
+  .doctor-cards,
+  .appointment-row{
+    grid-template-columns:1fr;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .appointment-row{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}

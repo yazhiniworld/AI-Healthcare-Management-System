@@ -2,7 +2,10 @@ package hospital_management.service;
 
 import hospital_management.entity.Appointment;
 import hospital_management.entity.AppointmentStatus;
+import hospital_management.entity.Doctor;
 import hospital_management.repository.AppointmentRepository;
+import hospital_management.repository.DoctorRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,9 @@ public class AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
@@ -72,5 +78,26 @@ public class AppointmentService {
 
     public List<Appointment> getAppointmentsByDoctor(Long doctorId) {
         return appointmentRepository.findByDoctorDoctorId(doctorId);
+    }
+
+    public List<Appointment> getAppointmentsByPatientUser(Long userId) {
+        return appointmentRepository.findByPatientUserUserId(userId);
+    }
+
+    public List<Appointment> getAppointmentsByDoctorUser(
+        Long userId) {
+
+        Doctor doctor =
+                doctorRepository.findByUserUserId(userId);
+
+        return appointmentRepository
+                .findByDoctorDoctorId(
+                        doctor.getDoctorId()
+                );
+    }
+
+    public Appointment getAppointmentById(Long id) {
+        return appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 }

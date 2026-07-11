@@ -50,4 +50,20 @@ public class DoctorController {
 
         return doctorService.getDoctorsByExperience(experience);
     }
+
+    @GetMapping("/search")
+    public List<Doctor> searchDoctors(
+            @RequestParam(required = false) String q) {
+        if (q == null || q.isBlank()) {
+            return doctorService.getAllDoctors();
+        }
+        return doctorService.searchDoctors(q);
+    }
+
+    @GetMapping("/user/{userId}")
+    public Doctor getDoctorByUserId(
+            @PathVariable Long userId) {
+
+        return doctorService.getDoctorByUserId(userId);
+    }
 }

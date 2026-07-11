@@ -1,26 +1,110 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import authService from '../services/authService';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaBars,
+  FaChevronRight,
+  FaUserCircle,
+} from "react-icons/fa";
 
-export default function Navbar() {
-  const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+import "./Navbar.css";
 
-  function logout(){
-    authService.logout();
-    navigate('/login');
-  }
+const routeTitles = {
+  "/": "Dashboard",
+  "/dashboard": "Dashboard",
+  "/patients": "Patients",
+  "/doctors": "Doctors",
+  "/appointments": "Appointments",
+  "/reports": "Reports",
+  "/assistant": "AI Assistant",
+  "/users": "Users",
+  "/patient-dashboard": "Patient Dashboard",
+  "/doctor-dashboard": "Doctor Dashboard",
+  "/my-profile": "My Profile",
+};
+
+export default function Navbar({ onMenuToggle }) {
+  const location = useLocation();
+
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  const pageTitle =
+    routeTitles[location.pathname] || "Dashboard";
+
+  const breadcrumbs =
+    location.pathname === "/"
+      ? []
+      : location.pathname
+          .split("/")
+          .filter(Boolean);
 
   return (
-    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:12,background:'#fff',boxShadow:'0 2px 8px rgba(2,6,23,0.06)'}}>
-      <div style={{fontWeight:700}}>HealthPlus</div>
+    <header className="navbar">
+
+      <button
+        className="navbar-menu"
+        onClick={() =>
+          onMenuToggle && onMenuToggle()
+        }
+      >
+        <FaBars />
+      </button>
+
+      <div className="navbar-main">
+
+        <div className="navbar-page-title">
+          {pageTitle}
+        </div>
+
+        <div className="navbar-breadcrumbs">
+          <Link to="/">Home</Link>
+
+          {breadcrumbs.map((crumb) => (
+            <span
+              key={crumb}
+              className="breadcrumb-item"
+            >
+              <FaChevronRight className="breadcrumb-separator" />
+
+              <span>
+                {crumb
+                  .replace("-", " ")
+                  .replace(/\b\w/g, (c) =>
+                    c.toUpperCase()
+                  )}
+              </span>
+
+            </span>
+          ))}
+        </div>
+
+      </div>
+
       {user && (
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <div style={{textAlign:'right'}}>
-            <div style={{fontWeight:600}}>{user.username} | {user.role} | <button onClick={logout} style={{padding:'6px 8px',borderRadius:6,border:'none',background:'#ef4444',color:'#fff',cursor:'pointer'}}>Logout</button></div>
+        <div className="navbar-actions">
+
+          <div className="user-profile">
+
+            <div className="user-avatar">
+              {user.username
+                ? user.username.charAt(0).toUpperCase()
+                : <FaUserCircle />}
+            </div>
+
+            <div className="user-info">
+              <span className="user-name">
+                {user.username}
+              </span>
+
+              <span className="user-badge">
+                {user.role}
+              </span>
+            </div>
+
           </div>
+
         </div>
       )}
-    </div>
+
+    </header>
   );
 }

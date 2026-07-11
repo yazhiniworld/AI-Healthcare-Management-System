@@ -1,221 +1,393 @@
-import { useEffect, useState } from "react";
-import { getAllPatients, addPatient } from "../services/patientService";
+import { useMemo, useState, useEffect } from "react";
+import {
+  FaSearch,
+  FaPlus,
+  FaEdit,
+  FaTrash
+} from "react-icons/fa";
+
+import {
+  getAllPatients,
+  addPatient as createPatient,
+  deletePatient
+} from "../services/patientService";
+
 import "./Patients.css";
 
 function Patients() {
+  const [patients, setPatients] = useState([]);
+  const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-const [patients, setPatients] = useState([]);
-const [searchTerm, setSearchTerm] = useState("");
-const [showForm, setShowForm] = useState(false);
-
-const [newPatient, setNewPatient] = useState({
-patientName: "",
-age: "",
-gender: "",
-phone: ""
-});
-
-useEffect(() => {
-loadPatients();
-}, []);
-
-const loadPatients = async () => {
-try {
-const data = await getAllPatients();
-setPatients(data);
-} catch (error) {
-console.error(error);
-}
-};
-
-const handleSavePatient = async () => {
-try {
-
-
-  await addPatient(newPatient);
-
-  setNewPatient({
-    patientName: "",
+  const [newPatient, setNewPatient] = useState({
+    name: "",
     age: "",
     gender: "",
-    phone: ""
+    phone: "",
+	bloodGroup: "",
+    address: "",
+    disease: "",
+    status: "Active"
   });
 
-  setShowForm(false);
+  useEffect(() => {
+    loadPatients();
+  }, []);
 
-  loadPatients();
+  const loadPatients = async () => {
+    try {
+      const data = await getAllPatients();
 
-} catch (error) {
-  console.error(error);
-}
+      const formatted = data.map((patient) => ({
+        id: patient.patientId,
+        name: patient.patientName,
+        age: patient.age,
+        gender: patient.gender,
+        phone: patient.phone,
+        bloodGroup: patient.bloodGroup,
+        address: patient.address,
+        disease: patient.disease,
+        status: patient.status
+      }));
 
-};
+      setPatients(formatted);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-const filteredPatients = patients.filter((patient) =>
-patient.patientName
-.toLowerCase()
-.includes(searchTerm.toLowerCase())
-);
+  const filteredPatients = useMemo(() => {
+    return patients.filter(
+      (patient) =>
+        patient.name?.toLowerCase().includes(search.toLowerCase()) ||
+        patient.phone?.includes(search)
+    );
+  }, [patients, search]);
 
-return ( <div className="patients-page">
-  <h1>Patients Management</h1>
+  const handleAddPatient = async () => {
+    if (
+      !newPatient.name ||
+      !newPatient.age ||
+      !newPatient.gender ||
+      !newPatient.phone
+    ) {
+      return;
+    }
 
-  <div className="stats-container">
+    try {
+      const payload = {
+        patientName: newPatient.name,
+        age: parseInt(newPatient.age),
+        gender: newPatient.gender,
+        phone: newPatient.phone,
+        bloodGroup: newPatient.bloodGroup,
+        address: newPatient.address,
+        disease: newPatient.disease,
+        status: newPatient.status
+      };
 
-    <div className="stat-card">
-      <h2>{patients.length}</h2>
-      <p>Total Patients</p>
-    </div>
+      await createPatient(payload);
 
-    <div className="stat-card">
-      <h2>
-        {patients.filter(
-          (p) => p.gender === "Male"
-        ).length}
-      </h2>
-      <p>Male</p>
-    </div>
+      await loadPatients();
 
-    <div className="stat-card">
-      <h2>
-        {patients.filter(
-          (p) => p.gender === "Female"
-        ).length}
-      </h2>
-      <p>Female</p>
-    </div>
+      setNewPatient({
+        name: "",
+        age: "",
+        gender: "",
+        phone: "",
+      });
 
-  </div>
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  <div className="top-bar">
+  const handleDeletePatient = async (id) => {
+    const confirmDelete = window.confirm(
+      "Delete this patient?"
+    );
 
-    <input
-      type="text"
-      placeholder="Search Patient..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-    />
+    if (!confirmDelete) return;
 
-    <button
-      className="add-btn"
-      onClick={() => setShowForm(true)}
-    >
-      + Add Patient
-    </button>
+    try {
+      await deletePatient(id);
+      await loadPatients();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  </div>
+  return (
+    <div className="patients-page">
 
-  <div className="patient-grid">
+      <div className="page-header">
+        <div>
+          <p className="eyebrow">Patient Care</p>
 
-    {filteredPatients.map((patient) => (
+          <h1>Patient Directory</h1>
 
-      <div
-        key={patient.patientId}
-        className="patient-card"
-      >
-
-        <div className="avatar">
-          👤
+          <p>
+            Search, manage and review patients
+            from a secure workspace.
+          </p>
         </div>
-
-        <h3>{patient.patientName}</h3>
-
-        <p>Age: {patient.age}</p>
-
-        <p>Gender: {patient.gender}</p>
-
-        <p>Phone: {patient.phone}</p>
-
-        <div className="card-buttons">
-
-          <button className="edit-btn">
-            Edit
-          </button>
-
-          <button className="delete-btn">
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    ))}
-
-  </div>
-
-  {showForm && (
-
-    <div className="modal-overlay">
-
-      <div className="modal">
-
-        <h2>Add Patient</h2>
-
-        <input
-          type="text"
-          placeholder="Patient Name"
-          value={newPatient.patientName}
-          onChange={(e) =>
-            setNewPatient({
-              ...newPatient,
-              patientName: e.target.value
-            })
-          }
-        />
-
-        <input
-          type="number"
-          placeholder="Age"
-          value={newPatient.age}
-          onChange={(e) =>
-            setNewPatient({
-              ...newPatient,
-              age: e.target.value
-            })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Gender"
-          value={newPatient.gender}
-          onChange={(e) =>
-            setNewPatient({
-              ...newPatient,
-              gender: e.target.value
-            })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Phone"
-          value={newPatient.phone}
-          onChange={(e) =>
-            setNewPatient({
-              ...newPatient,
-              phone: e.target.value
-            })
-          }
-        />
 
         <button
-          className="save-btn"
-          onClick={handleSavePatient}
+          className="primary-btn"
+          onClick={() => setShowModal(true)}
         >
-          Save Patient
+          <FaPlus /> Add Patient
         </button>
+      </div>
+
+      <div className="patient-summary-grid">
+
+        <div className="stat-card">
+          <span>Total Patients</span>
+          <h2>{patients.length}</h2>
+        </div>
+
+        <div className="stat-card soft">
+          <span>Active Cases</span>
+          <h2>{patients.length}</h2>
+        </div>
+
+        <div className="stat-card soft">
+          <span>Under Review</span>
+          <h2>0</h2>
+        </div>
 
       </div>
 
+      <div className="search-bar">
+        <div className="search-input">
+          <FaSearch />
+
+          <input
+            type="text"
+            placeholder="Search patients..."
+            value={search}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+          />
+        </div>
+      </div>
+
+      <div className="patient-table-wrap">
+
+        <table className="patient-table">
+
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Actions</th>
+			  <th>Blood Group</th>
+<th>Disease</th>
+<th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {filteredPatients.map((patient) => (
+              <tr key={patient.id}>
+
+                <td>
+                  <div className="patient-name-cell">
+
+                    <div className="patient-icon">
+                      {patient.name?.charAt(0)}
+                    </div>
+
+                    <div>
+                      <strong>{patient.name}</strong>
+                      <span>{patient.phone}</span>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td>{patient.age}</td>
+
+                <td>{patient.gender}</td>
+
+                <td>{patient.phone}</td>
+
+                <td>{patient.bloodGroup}</td>
+                <td>{patient.disease}</td>
+                <td>
+                  <span className="status-badge active">
+                    {patient.status}
+                  </span>
+                </td>
+
+                <td>
+
+                  <button className="icon-btn soft">
+                    <FaEdit />
+                  </button>
+
+                  <button
+                    className="icon-btn danger"
+                    onClick={() =>
+                      handleDeletePatient(patient.id)
+                    }
+                  >
+                    <FaTrash />
+                  </button>
+
+                </td>
+
+              </tr>
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+
+          <div className="modal-panel glass-card">
+
+            <div className="modal-header">
+
+              <h3>Add New Patient</h3>
+
+              <button
+                className="close-btn"
+                onClick={() =>
+                  setShowModal(false)
+                }
+              >
+                &times;
+              </button>
+
+            </div>
+
+            <div className="modal-body">
+
+              <input
+                type="text"
+                placeholder="Patient Name"
+                value={newPatient.name}
+                onChange={(e) =>
+                  setNewPatient({
+                    ...newPatient,
+                    name: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="number"
+                placeholder="Age"
+                value={newPatient.age}
+                onChange={(e) =>
+                  setNewPatient({
+                    ...newPatient,
+                    age: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Gender"
+                value={newPatient.gender}
+                onChange={(e) =>
+                  setNewPatient({
+                    ...newPatient,
+                    gender: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Phone"
+                value={newPatient.phone}
+                onChange={(e) =>
+                  setNewPatient({
+                    ...newPatient,
+                    phone: e.target.value
+                  })
+                }
+              />
+               <input
+  type="text"
+  placeholder="Blood Group"
+  value={newPatient.bloodGroup}
+  onChange={(e) =>
+    setNewPatient({
+      ...newPatient,
+      bloodGroup: e.target.value
+    })
+  }
+/>
+
+<input
+  type="text"
+  placeholder="Disease"
+  value={newPatient.disease}
+  onChange={(e) =>
+    setNewPatient({
+      ...newPatient,
+      disease: e.target.value
+    })
+  }
+/>
+
+<textarea
+  placeholder="Address"
+  value={newPatient.address}
+  onChange={(e) =>
+    setNewPatient({
+      ...newPatient,
+      address: e.target.value
+    })
+  }
+/>
+
+<select
+  value={newPatient.status}
+  onChange={(e) =>
+    setNewPatient({
+      ...newPatient,
+      status: e.target.value
+    })
+  }
+>
+  <option value="Active">Active</option>
+  <option value="Under Review">Under Review</option>
+  <option value="Discharged">Discharged</option>
+</select>
+
+
+            </div>
+
+            <button
+              className="primary-btn stretch"
+              onClick={handleAddPatient}
+            >
+              Save Patient
+            </button>
+
+          </div>
+
+        </div>
+      )}
+
     </div>
-
-  )}
-
-</div>
-
-);
+  );
 }
 
 export default Patients;

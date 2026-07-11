@@ -35,10 +35,26 @@ public class DoctorService {
     }
     //  Get Doctors by Specialization
     public List<Doctor> getDoctorsBySpecialization(String specialization) {
-    return doctorRepository.findBySpecialization(specialization);
+        return doctorRepository.findBySpecialization(specialization);
     }
+
     // Get Doctors by Experience
     public List<Doctor> getDoctorsByExperience(int experience) {
-    return doctorRepository.findByExperience(experience);
+        return doctorRepository.findByExperience(experience);
+    }
+
+    // Search doctors by name or specialization
+    public List<Doctor> searchDoctors(String query) {
+        return doctorRepository.findByDoctorNameContainingIgnoreCaseOrSpecializationContainingIgnoreCase(query, query);
+    }
+
+    // Get Doctor By User ID
+    public Doctor getDoctorByUserId(Long userId) {
+        return doctorRepository.findByUserUserId(userId);
+    }
+
+    public Doctor getDoctorById(Long id) {
+        return doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
 }

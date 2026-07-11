@@ -1,17 +1,26 @@
 package hospital_management.dto;
 
 public class AuthResponse {
+
     private boolean success;
+    private Long userId;
     private String role;
     private String username;
+    private boolean approved;
+    private String phone;
+    private String specialization;
     private String message;
 
     public AuthResponse() {}
 
-    public AuthResponse(boolean success, String role, String username) {
+    public AuthResponse(boolean success, Long userId, String role, String username, boolean approved, String phone, String specialization) {
         this.success = success;
+        this.userId = userId;
         this.role = role;
         this.username = username;
+        this.approved = approved;
+        this.phone = phone;
+        this.specialization = specialization;
     }
 
     public AuthResponse(boolean success, String message) {
@@ -25,6 +34,14 @@ public class AuthResponse {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getRole() {
@@ -43,6 +60,30 @@ public class AuthResponse {
         this.username = username;
     }
 
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -50,4 +91,5 @@ public class AuthResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }
