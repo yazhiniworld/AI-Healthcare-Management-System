@@ -535,7 +535,7 @@ export default function Users() {
             </p>
 
             <a
-              href={`http://localhost:8080/uploads/${viewDoctor.certificatePath}`}
+              href={`http://localhost:8090/uploads/${viewDoctor.certificatePath}`}
               target="_blank"
               rel="noreferrer"
               className="view-certificate-btn"

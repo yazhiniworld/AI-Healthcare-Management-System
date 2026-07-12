@@ -84,18 +84,22 @@ public class AppointmentService {
         return appointmentRepository.findByPatientUserUserId(userId);
     }
 
-    public List<Appointment> getAppointmentsByDoctorUser(
-        Long userId) {
+    public List<Appointment> getAppointmentsByDoctorUser(Long userId) {
 
-        Doctor doctor =
-                doctorRepository.findByUserUserId(userId);
+    System.out.println("Incoming User ID = " + userId);
 
-        return appointmentRepository
-                .findByDoctorDoctorId(
-                        doctor.getDoctorId()
-                );
+    Doctor doctor = doctorRepository.findByUserUserId(userId);
+
+    System.out.println("Doctor = " + doctor);
+
+    if (doctor == null) {
+        throw new RuntimeException("Doctor not found for userId = " + userId);
     }
 
+    return appointmentRepository.findByDoctorDoctorId(
+            doctor.getDoctorId()
+    );
+}
     public Appointment getAppointmentById(Long id) {
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));

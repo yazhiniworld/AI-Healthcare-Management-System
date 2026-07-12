@@ -80,25 +80,22 @@ function App() {
 
         {/* PUBLIC ROUTES */}
 
-        <Route
-          path="/"
-          element={
-            user ? (
-              <Navigate
-                to={
-                  user.role === "DOCTOR"
-                    ? "/doctor-dashboard"
-                    : user.role === "PATIENT"
-                    ? "/patient-dashboard"
-                    : "/dashboard"
-                }
-              />
-            ) : (
-              <Landing />
-            )
-          }
-        />
-
+       <Route
+  path="/"
+  element={
+    user ? (
+      user.role === "ADMIN" ? (
+        <Navigate to="/dashboard" replace />
+      ) : user.role === "DOCTOR" ? (
+        <Navigate to="/doctor-dashboard" replace />
+      ) : (
+        <Navigate to="/patient-dashboard" replace />
+      )
+    ) : (
+      <Landing />
+    )
+  }
+/>
         <Route
           path="/login"
           element={

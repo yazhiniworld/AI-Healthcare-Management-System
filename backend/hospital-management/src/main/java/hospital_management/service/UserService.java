@@ -289,34 +289,7 @@ public User approveDoctor(Long id) {
 
     user.setApproved(true);
 
-    User approvedUser =
-            userRepository.save(user);
-
-    Doctor doctor = new Doctor();
-
-    doctor.setDoctorName(
-            user.getUsername()
-    );
-
-    doctor.setSpecialization(
-            user.getSpecialization()
-    );
-
-    doctor.setExperience(
-            user.getExperience() == null
-                    ? 0
-                    : user.getExperience()
-    );
-
-    doctor.setPhone(
-            user.getPhone()
-    );
-
-    doctor.setUser(user);
-
-    doctorRepository.save(doctor);
-
-    return approvedUser;
+    return userRepository.save(user);
 }
 
 // DTO CONVERTER
