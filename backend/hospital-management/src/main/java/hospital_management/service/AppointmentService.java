@@ -92,7 +92,7 @@ public class AppointmentService {
 
     System.out.println("Doctor = " + doctor);
 
-    if (doctor == null) {
+    if (doctor == null) {  
         throw new RuntimeException("Doctor not found for userId = " + userId);
     }
 
