@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaRobot, FaPaperPlane, FaMicrophoneAlt, FaLightbulb } from "react-icons/fa";
 import "./AIAssistant.css";
-import aiResponses from "../data/aiResponses";
+import aiResponses from "../Data/aiResponses";
 
 const initialMessages = [
   { id: 1, sender: "assistant", text: "Welcome to the AI Health Assistant. Ask anything about appointments, doctors, or patient care." },
