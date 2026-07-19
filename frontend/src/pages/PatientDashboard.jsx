@@ -301,7 +301,7 @@ export default function PatientDashboard() {
             reports.map((report) => {
               const downloadUrl = report.detailsUrl?.startsWith("http")
                 ? report.detailsUrl
-                : `http://localhost:8090/uploads/${report.detailsUrl}`;
+                : `https://ai-healthcare-management-system-im8h.onrender.com${report.detailsUrl}`;
 
               return (
                 <div key={report.reportId} className="report-card">

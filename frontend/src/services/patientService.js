@@ -2,8 +2,9 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:8090/patients";
-const PORTAL_URL = "http://localhost:8090/patient";
+const API_URL = "https://ai-healthcare-management-system-im8h.onrender.com/patients";
+
+const PORTAL_URL = "https://ai-healthcare-management-system-im8h.onrender.com/patient";
 
 export const getAllPatients = async () => {
   const response = await axios.get(API_URL);

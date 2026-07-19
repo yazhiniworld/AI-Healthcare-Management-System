@@ -1,6 +1,6 @@
 (async ()=>{
   try {
-    const resp = await fetch('http://localhost:8090/auth/register', {
+    const resp = await fetch('https://ai-healthcare-management-system-im8h.onrender.com/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -535,10 +535,10 @@ export default function Users() {
             </p>
 
             <a
-              href={`http://localhost:8090/uploads/${viewDoctor.certificatePath}`}
-              target="_blank"
-              rel="noreferrer"
-              className="view-certificate-btn"
+              href={`https://ai-healthcare-management-system-im8h.onrender.com/uploads/${viewDoctor.certificatePath}`}
+target="_blank"
+rel="noreferrer"
+className="view-certificate-btn"
             >
                View Uploaded Certificate
             </a>
