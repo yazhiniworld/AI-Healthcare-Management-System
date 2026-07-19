@@ -62,13 +62,13 @@ if (userRepository.existsByEmail(
     );
 }
 
-//if (req.getRole() == UserRole.ADMIN) {
+if (req.getRole() == UserRole.ADMIN) {
 
-  //  return new AuthResponse(
-      //      false,
-     //       "Admin registration not allowed"
-   // );
-//}
+  return new AuthResponse(
+           false,
+          "Admin registration not allowed"
+   );
+}
 
 User user = new User();
 
